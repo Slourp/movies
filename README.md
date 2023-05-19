@@ -2,11 +2,6 @@
 
 This is a Livewire and Laravel application that consumes a movie API. It is designed to work with Traefik and uses Docker Compose for easy deployment. By following the instructions below, you can run the application on your local machine.
 
-## Prerequisites…
-# Movie API Livewire and Laravel App 🎥🌐🚀
-
-This is a Livewire and Laravel application that consumes a movie API. It is designed to work with Traefik and uses Docker Compose for easy deployment. By following the instructions below, you can run the application on your local machine.
-
 ## Prerequisites
 
 Before running this application, make sure you have the following installed:
@@ -24,6 +19,7 @@ git clone https://github.com/Slourp/movies.git
 
 2. Create a file called .env in the root directory of the repository and set the following environment variables: 🛠️
 
+```shell
 # docker
 # Network variables
 NETWORK_NAME=dev
@@ -47,6 +43,7 @@ MYSQL_DATABASE=main
 
 XDEBUG_MODE=on
 BUILD_TARGET=app
+```
 
 3. Modify the docker-compose.dev.yml file to suit your needs. You can change the Traefik version, port mappings, environment variables, and other settings.
 
