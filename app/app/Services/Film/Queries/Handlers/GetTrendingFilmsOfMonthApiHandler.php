@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Services\Film\Queries\Handlers;
+
 use App\Services\Film\FilmApiInterface;
 use App\Services\Film\Queries\FilmQueryInterface;
 use App\Services\Film\Queries\Handlers\GetFilmQueryInterface;

@@ -16,11 +16,9 @@ class GetFilmDetailsApiHandler implements GetFilmQueryInterface
 
     public function handle(FilmQueryInterface $query): array|object|null
     {
-        // Use $this->filmApi to interact with the Film API and retrieve the film details
-        // Implement the logic to handle the GetFilmDetailsQuery
+        /** @var GetFilmDetailsQuery $query */
 
-        // Example usage:
-        $filmDetails = $this->filmApi->getFilmDetails($query->id);
+        $filmDetails = $this->filmApi->getFilmDetails($query->filmId);
 
         // Return the film details
         return $filmDetails;

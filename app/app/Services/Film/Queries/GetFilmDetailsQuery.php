@@ -5,5 +5,9 @@ namespace App\Services\Film\Queries;
 
 class GetFilmDetailsQuery implements FilmQueryInterface
 {
-    public readonly int $filmId;
+
+    public function __construct(
+        public readonly int $filmId
+    ) {
+    }
 }
