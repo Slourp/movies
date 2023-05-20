@@ -81,6 +81,26 @@ services:
             - "traefik.http.routers.${PROJECT_NAME}_phpmyadmin.tls=true"
             - "traefik.http.routers.${PROJECT_NAME}_phpmyadmin.middlewares=phpmyadmin"
             - "traefik.http.middlewares.phpmyadmin.stripprefix.prefixes=/pma"
+    rabbitmq:
+        image: "rabbitmq:management-alpine"
+        labels:
+            - "traefik.http.services.${PROJECT_NAME}_rabbitmq.loadbalancer.server.port=15672"
+            - "traefik.http.routers.${PROJECT_NAME}_rabbitmq.rule=Host(`rabbitmq-${DOMAIN}.traefik.me`)"
+            - "traefik.http.routers.${PROJECT_NAME}_rabbitmq-tls.tls.domains[0].main=rabbitmq-${DOMAIN}.traefik.me"
+            - "traefik.http.routers.${PROJECT_NAME}_rabbitmq-tls.tls.domains[0].sans=rabbitmq-${DOMAIN}-*.traefik.me"
+            - "traefik.http.routers.${PROJECT_NAME}_rabbitmq.tls=true"
+
+            - traefik.tcp.routers.rabbitmq.rule=HostSNI(`*`)
+            - traefik.tcp.routers.rabbitmq.entrypoints=rabbit-mq
+            - traefik.tcp.services.rabbitmq.loadbalancer.server.port=5672
+        ports:
+            - 5672:5672
+            - 15672:15672
+            # volumes:
+            #   - ./data/:/var/lib/rabbitmq/
+            #   - ./log/:/var/log/rabbitmq
+        networks:
+            - dev
 
 networks:
     default:
