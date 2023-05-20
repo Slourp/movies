@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\DTOs\FilmDTO;
 use App\Models\Film;
+use App\Services\Film\Commands\AddFilmCommand;
+use App\Services\Film\Commands\Handlers\AddFilmCommandHandler;
 use App\Services\Film\Queries\GetFilmDetailsQuery;
 use App\Services\Film\Queries\GetTrendingFilmsOfMonthQuery;
 use App\Services\Film\Queries\Handlers\GetFilmDetailsApiHandler;
@@ -14,7 +16,8 @@ class FilmController extends Controller
 {
     public function __construct(
         private GetTrendingFilmsOfDayApiHandler $getTrendingFilmsOfDayApiHandler,
-        private GetFilmDetailsApiHandler $getFilmDetailsApiHandler
+        private GetFilmDetailsApiHandler $getFilmDetailsApiHandler,
+        private AddFilmCommandHandler $addFilmCommandHandler
     ) {
     }
     /**
@@ -54,7 +57,12 @@ class FilmController extends Controller
             vote_average: $filmDetails->vote_average,
             vote_count: $filmDetails->vote_count,
         );
-        $film = Film::create((array)$filmDTO);
+
+        $command = new AddFilmCommand($filmDTO);
+        $this->addFilmCommandHandler->handle($command);
+
+        return 'ok';
+        // $film = Film::create((array)$filmDTO);
     }
 
 
