@@ -1,4 +1,4 @@
-<?
+<?php
 
 namespace App\Services\Film;
 
@@ -7,56 +7,53 @@ use Illuminate\Support\Facades\Http;
 
 class FilmApiClient implements FilmApiInterface
 {
-    private string $baseUrl;
-    private string $token;
-
-    public function __construct(string $baseUrl, string $token)
-    {
-        $this->baseUrl = $baseUrl;
-        $this->token = $token;
+    public function __construct(
+        private string $baseUrl,
+        private  string $token
+    ) {
     }
 
-    public function getTrendingFilmsOfDay(): ?array
+    private function sendRequest(string $endpoint, array $params = []): ?array
     {
-        $url = "{$this->baseUrl}/trending/all/day";
-        $response = Http::withHeaders([
+        $url = "{$this->baseUrl}/$endpoint";
+        $headers = [
             'Authorization' => "Bearer {$this->token}",
             'Accept' => 'application/json',
-        ])->get($url, ['language' => 'en-US']);
+        ];
 
-        if ($response->successful()) return $response->json();
+        $response = Http::withHeaders($headers)
+            ->get($url, $params);
 
+        $this->handleResponse($response, $endpoint);
 
-        throw new ApiException('Failed to fetch trending films of the day');
+        return $response->json();
     }
 
-    public function getTrendingFilmsOfMonth(): ?array
+    private function handleResponse($response, string $endpoint): void
     {
-        $url = "{$this->baseUrl}/trending/all/week";
-        $response = Http::withHeaders([
-            'Authorization' => "Bearer {$this->token}",
-            'Accept' => 'application/json',
-        ])->get($url, ['language' => 'en-US']);
+        if (!$response->successful()) throw new ApiException("Failed to fetch $endpoint");
+    }
 
-        if ($response->successful()) {
-            return $response->json();
-        }
+    public function getTrendingFilmsOfDay(int $page = 1): ?array
+    {
+        return $this->sendRequest('trending/all/day', [
+            'language' => 'en-US',
+            'page' => $page,
+        ]);
+    }
 
-        throw new ApiException('Failed to fetch trending films of the month');
+    public function getTrendingFilmsOfMonth(int $page = 1): ?array
+    {
+        return $this->sendRequest('trending/all/week', [
+            'language' => 'en-US',
+            'page' => $page,
+        ]);
     }
 
     public function getFilmDetails(int $filmId): ?array
     {
-        $url = "{$this->baseUrl}/movie/{$filmId}";
-        $response = Http::withHeaders([
-            'Authorization' => "Bearer {$this->token}",
-            'Accept' => 'application/json',
-        ])->get($url, ['language' => 'en-US']);
-
-        if ($response->successful()) {
-            return $response->json();
-        }
-
-        throw new ApiException('Failed to fetch film details');
+        return $this->sendRequest("movie/{$filmId}", [
+            'language' => 'en-US',
+        ]);
     }
 }
