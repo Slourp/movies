@@ -12,7 +12,6 @@ RUN apt-get update && apt-get install -y nano bash zsh git coreutils
 
 # Install nvm dependencies
 RUN apt-get install -y curl  python3 
-
 # 
 RUN ln -s $(which php) /usr/local/lib/php
 
