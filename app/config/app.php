@@ -171,7 +171,7 @@ return [
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
         App\Providers\MovieApiConfigServiceProvider::class,
-        App\Providers\MovieDbApiProvider::class
+        App\Providers\MovieDbApiProvider::class,
 
 
     ])->toArray(),
