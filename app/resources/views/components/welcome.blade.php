@@ -43,7 +43,7 @@
         <div class="flex items-center">
 
             <div class="max-w-xs">
-                <img src="https://em-content.zobj.net/thumbs/120/apple/354/spouting-whale_1f433.png" alt="Whale" width="48" height="48">
+                <img src="https://images.emojiterra.com/google/android-11/512px/1f310.png" alt="Whale" width="48" height="48">
             </div>
             <h2 class="ml-3 text-xl font-semibold text-gray-900 dark:text-white">
                 <a href="https://laracasts.com">Laracasts</a>
@@ -68,10 +68,10 @@
     <div>
         <div class="flex items-center">
             <div class="max-w-xs">
-                <img src="https://em-content.zobj.net/thumbs/120/apple/354/spouting-whale_1f433.png" alt="Whale" width="48" height="48">
+                <img src="https://images.emojiterra.com/google/noto-emoji/unicode-15/color/512px/1f468-1f4bb.png" alt="Whale" width="48" height="48">
             </div>
             <h2 class="ml-3 text-xl font-semibold text-gray-900 dark:text-white">
-                <a href="https://tailwindcss.com/">Tailwind</a>
+                <a href="https://tailwindcss.com/">CQRS</a>
             </h2>
         </div>
 
@@ -83,7 +83,7 @@
     <div>
         <div class="flex items-center">
             <div class="max-w-xs">
-                <img src="https://em-content.zobj.net/thumbs/120/apple/354/spouting-whale_1f433.png" alt="Whale" width="48" height="48">
+                <img src="https://images.emojiterra.com/google/noto-emoji/v2.038/128px/1f937.png" alt="Whale" width="48" height="48">
             </div>
             <h2 class="ml-3 text-xl font-semibold text-gray-900 dark:text-white">
                 Authentication
