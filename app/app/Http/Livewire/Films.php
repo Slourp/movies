@@ -5,16 +5,19 @@ namespace App\Http\Livewire;
 use App\Models\Film;
 use Carbon\Carbon;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Films extends Component
 {
-    public $films, $title, $overview, $product_id;
+    use WithPagination;
+
+    public $title, $overview, $product_id;
     public $isOpen = 0;
 
     public function render()
     {
-        $this->films = Film::all();
-        return view('livewire.products');
+        $films = Film::orderBy('created_at', 'desc')->paginate(5);
+        return view('livewire.films', ['films' => $films]);
     }
 
     public function create()
@@ -65,7 +68,7 @@ class Films extends Component
     private function createFilm()
     {
         $film = new Film();
-        $film->id = mt_rand(100000, 999999); // Generate a unique integer ID within the range of 100000 to 999999
+        $film->id = mt_rand(100000, 999999);
         $film->title = $this->title;
         $film->overview = $this->overview;
         $film->created_at = Carbon::now();
