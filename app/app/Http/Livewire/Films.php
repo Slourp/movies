@@ -11,14 +11,22 @@ class Films extends Component
 {
     use WithPagination;
 
-    public $title, $overview, $product_id;
+    public $title, $overview, $product_id, $search = '';
     public $isOpen = 0;
 
     public function render()
     {
-        $films = Film::orderBy('created_at', 'desc')->paginate(5);
-        return view('livewire.films', ['films' => $films]);
+        $films = Film::where('title', 'like', '%' . $this->search . '%')
+            ->orWhere('overview', 'like', '%' . $this->search . '%')
+            ->paginate(5);
+
+        return view('livewire.films', [
+            'films' => $films,
+        ]);
     }
+
+
+
 
     public function create()
     {
