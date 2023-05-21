@@ -37,6 +37,9 @@ services:
         volumes:
             - ./app:/var/www/app
             - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
+            - ./docker/php/init.sh:/var/www/app/
+        ports:
+            - "3000:5173"
         env_file:
             - .env
         depends_on:
@@ -100,7 +103,7 @@ services:
             #   - ./data/:/var/lib/rabbitmq/
             #   - ./log/:/var/log/rabbitmq
         networks:
-            - dev
+            - default
 
 networks:
     default:
