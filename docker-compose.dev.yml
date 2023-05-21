@@ -35,9 +35,6 @@ services:
             - "traefik.http.routers.${PROJECT_NAME}_NODE-tls.tls.domains[0].main=assets-movies.traefik.me"
             - "traefik.http.routers.${PROJECT_NAME}_NODE-tls.tls.domains[0].sans=*.assets-movies.traefik.me"
             - "traefik.http.routers.${PROJECT_NAME}_NODE.tls=true"
-        command: >
-            sh -c "while :; do sleep 60 && php artisan schedule:run >> /dev/null 2>&1; done"
-
         build:
             context: .
             dockerfile: ./docker/php/Dockerfile
@@ -50,8 +47,6 @@ services:
             - ./app:/var/www/app
             - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
             - ./docker/php/init.sh:/var/www/app/
-        ports:
-            - "444:444"
         env_file:
             - .env
         depends_on:

@@ -15,18 +15,10 @@
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('trending.by.day') }}" :active="request()->routeIs('trending.by.day')">
-                        {{ __('Trending By Day') }}
-                    </x-nav-link>
 
                     <x-nav-link href="{{ route('trending.by.month') }}" :active="request()->routeIs('trending.by.month')">
                         {{ __('Trending By Month') }}
                     </x-nav-link>
-
-                    <x-nav-link href="{{ route('products') }}" :active="request()->routeIs('products')">
-                        {{ __('Products') }}
-                    </x-nav-link>
-
                     <x-nav-link href="{{ route('films') }}" :active="request()->routeIs('films')">
                         {{ __('Film') }}
                     </x-nav-link>

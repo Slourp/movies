@@ -8,19 +8,42 @@ Before running this application, make sure you have the following installed:
 
 - Docker and Docker Compose 🐳
 - A domain name with a valid SSL certificate 🔒
+- [nvm (Node Version Manager)](https://github.com/nvm-sh/nvm#installing-and-updating)
+
+## Initial Setup
+
+1. Clone the traefik setup project to your local machine:
+
+```shell
+git clone git@github.com:Slourp/traefik.git
+```
+
+2. Run the traefik project with your user ID and group ID:
+
+```shell
+USER=$USER USER_ID=$(id -u) GROUP_ID=$(id -g) docker-compose -f docker-compose.dev.yml up -V -d --build
+```
+
+If you don't have a docker network called 'dev', create one:
+
+```shell
+docker network create dev
+```
 
 ## Configuration
 
 To configure the application, follow these steps:
 
-1. Clone this repository to your local machine: 📥
-
-git clone https://github.com/Slourp/movies.git
-
-2. Create a file called .env in the root directory of the repository and set the following environment variables: 🛠️
+1. Clone this repository to your local machine:
 
 ```shell
-# docker
+git clone https://github.com/Slourp/movies.git
+```
+
+2. Create a file called .env in the root directory of the repository and set the following environment variables:
+
+```shell
+# Docker
 # Network variables
 NETWORK_NAME=dev
 
@@ -40,67 +63,90 @@ MYSQL_USER=user
 MYSQL_DATABASE=main
 
 # Domain variables
-
 XDEBUG_MODE=on
 BUILD_TARGET=app
 ```
 
-3. Modify the docker-compose.dev.yml file to suit your needs. You can change the Traefik version, port mappings, environment variables, and other settings.
+3. Modify the `docker-compose.dev.yml` file to suit your needs. You can change the Traefik version, port mappings, environment variables, and other settings.
 
-4. Run the following command to start the application: 🏃
+4. update settins in the app's .env file ( secret token ).
 
-docker-compose -f docker-compose.dev.yml up -d
+5. Run the following command to start the application:
 
-5. Install the project dependencies by running the following command: 📦
+```shell
+USER=$USER USER_ID=$(id -u) GROUP_ID=$(id -g) docker-compose -f docker-compose.dev.yml up -V -d --build 
+```
 
-docker exec -ti MOVIES_LARAVEL_PHP composer install
+5. Enter the Docker container for the project:
 
-This command will install all the necessary dependencies for the Laravel application.
+```shell
+docker exec -ti MOVIES_LARAVEL_PHP bash
+```
+
+6. Run the initialization script `./init.sh`. If Node.js is not installed, it will install the LTS version:
+
+```shell
+./init.sh
+```
+
+If there's any doubt if nvm is installed or not, you can run the script again.
+
+7. Install Node.js and PHP dependencies:
+
+```shell
+npm install
+composer install
+```
+
+8. Finally, run Laravel migrations and compile assets:
+
+```shell
+php artisan migrate
+npm run dev 
+```
 
 ## Accessing the Application
 
-Once the application is up and running, you can access it using the domain name you specified in the .env file. In this case, the application will be accessible at https://movies.traefik.me. 🌐🔐
+Once the application is up and running, you can access it using the domain name you specified in the .env file. In this case, the application will be accessible at https://movies.traefik.me.
 
-## Project Overview ℹ️
+For further details, like project overview, structure, dependencies, usage examples, troubleshooting, contributing, and licensing, please refer to the corresponding sections of this document.
 
-Provide a brief overview of the project, its purpose, and key features.
+## Useful Commands 🛠️
 
-## Project Structure 📁
+During the operation of the application, you might find the following commands useful:
 
-Explain the organization and structure of the project. Describe the main directories, files, and their purposes.
+### Running the Queue
 
-## Dependencies 📦
+When you click on 'Add to Database,' all the actions are pushed to a queue for execution. You can run the queue with the following command:
 
-List any external dependencies or libraries used in the project. Include their names, versions, and any necessary installation or setup instructions.
+```shell
+docker exec -ti MOVIES_LARAVEL_PHP php artisan queue:clear --queue=film_requests
+```
 
-## Usage Examples 💡
+### Populating the Database
 
-Include some usage examples or code snippets to demonstrate how to use the application.
+To populate the database with all movies from the first page of 'Trending' and 'Awesome Movies,' use this command:
 
-## Troubleshooting ❗
+```shell
+docker exec -ti MOVIES_LARAVEL_PHP films:resync
+```
 
-Provide a troubleshooting section that addresses common issues users may encounter and suggests potential solutions.
-
-## Contributing 🤝
-
-If you're open to contributions from the community, provide guidelines for contributing to the project.
-
-## License 📝
-
-Specify the license under which the project is distributed.
+These commands help manage and control the data flow within the application, ensuring that the database remains up-to-date with the latest movie information.
 
 ## Maintenance
 
-To stop and remove the application, run the following command: ⛔🧹
+To stop and remove the application, run the following command:
 
+```shell
 docker-compose -f docker-compose.dev.yml down
+```
 
 ## Need Help? Contact the Developer! 🙋‍♂️
 
 If you have any questions, issues, or feature requests, feel free to contact the developer of this project.
 
 - Name: David V.
-- Email: davidvanmak+laravel_app@gmail.com
-- GitHub: https://github.com/Slourp/
+- Email: davidvanmak+laravel_movie@gmail.com
+- GitHub: [Slourp](https://github.com/Slourp/)
 
 The developer is always happy to help! 😊
