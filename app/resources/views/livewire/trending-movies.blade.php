@@ -19,6 +19,10 @@
             @if($isOpen)
             @include('livewire.create')
             @endif
+
+            <div class="mb-4">
+                <input type="text" wire:model.debounce.300ms="search" class="border border-gray-300 rounded px-4 py-2" placeholder="Search...">
+            </div>
             <table class="table-fixed w-full">
                 <thead>
                     <tr class="bg-gray-100">
@@ -35,9 +39,9 @@
                         <td class="border px-4 py-2">{{ $film['title'] ?? "" }}</td>
                         <td class="border px-4 py-2">{{ $film['overview'] }}</td>
                         <td class="border px-4 py-2 text-center">
-                            <button wire:click="edit({{ $film['id'] }})" class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded">Edit</button>
-                            <button wire:click="delete({{ $film['id'] }})" class="bg-red-500 hover:bg-red-700 text-white py-1 px-3 rounded">Delete</button>
+                            <button wire:click="addSelectedFilmsToDatabase({{ $film['id'] }})" class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded">Add to Database</button>
                         </td>
+
                     </tr>
                     @endforeach
                 </tbody>

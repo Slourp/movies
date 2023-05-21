@@ -9,7 +9,7 @@ class FilmApiClient implements FilmApiInterface
 {
     public function __construct(
         private string $baseUrl,
-        private  string $token
+        private string $token
     ) {
     }
 
@@ -54,6 +54,16 @@ class FilmApiClient implements FilmApiInterface
     {
         return $this->sendRequest("movie/{$filmId}", [
             'language' => 'en-US',
+        ]);
+    }
+
+    public function searchFilms(string $query, ?int $page = 1): ?array
+    {
+        return $this->sendRequest('search/movie', [
+            'query' => $query,
+            'include_adult' => 'false',
+            'language' => 'en-US',
+            'page' => $page,
         ]);
     }
 }

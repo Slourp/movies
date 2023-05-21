@@ -27,4 +27,19 @@ interface FilmApiInterface
      * @return array|null
      */
     public function getFilmDetails(int $filmId): ?array;
+
+    /**
+     * Search for a specific film.
+     *
+     * @param int $filmId
+     * @return array|null
+     */
+    /**
+     * Search films.
+     *
+     * @param string $query
+     * @param int $page
+     * @return array|null
+     */
+    public function searchFilms(string $query, ?int $page = 1): ?array;
 }

@@ -2,16 +2,27 @@
 
 namespace App\Http\Livewire;
 
-use App\Api\FilmApiClient;
 use App\Handlers\GetTrendingFilmsOfDayApiHandler;
+use App\Jobs\ProcessFilmRequestJob;
 use App\Queries\GetTrendingFilmsOfDayQuery;
-use App\Services\Film\FilmApiClient as FilmFilmApiClient;
+use App\Services\Film\FilmApiClient;
+use App\Services\Film\FilmApiInterface;
 use App\Services\Film\Queries\GetTrendingFilmsOfDayQuery as QueriesGetTrendingFilmsOfDayQuery;
+use App\Services\Film\Queries\Handlers\GetFilmDetailsApiHandler;
 use App\Services\Film\Queries\Handlers\GetTrendingFilmsOfDayApiHandler as HandlersGetTrendingFilmsOfDayApiHandler;
 use Livewire\Component;
 
 class TrendingMovies extends Component
 {
+    private FilmApiInterface $api;
+    public function __construct()
+    {
+        $baseUrl = config('film-api.moviedb.url');
+        $token = config('film-api.moviedb.token');
+        $this->api = new FilmApiClient($baseUrl, $token);
+    }
+
+
     public bool $isOpen = false;
     public array $films = [];
     public int $currentPage = 1;
@@ -24,7 +35,7 @@ class TrendingMovies extends Component
         $token = config('film-api.moviedb.token');
 
         // Create an instance of the FilmApiClient
-        $filmApiClient = new FilmFilmApiClient($baseUrl, $token);
+        $filmApiClient = new FilmApiClient($baseUrl, $token);
 
         // Create an instance of the GetTrendingFilmsOfDayApiHandler
         $getTrendingFilmsOfDayApiHandler = new HandlersGetTrendingFilmsOfDayApiHandler($filmApiClient);
@@ -48,6 +59,12 @@ class TrendingMovies extends Component
         ]);
     }
 
+    public function addSelectedFilmsToDatabase($filmId)
+    {
+        ProcessFilmRequestJob::dispatch(new GetFilmDetailsApiHandler($this->api), $filmId)
+            ->onQueue('film_requests');
+        session()->flash('message', 'Selected films added to the database.');
+    }
 
     public function previousPage()
     {
