@@ -16,9 +16,8 @@ class GetTrendingFilmsOfDayApiHandler implements GetFilmQueryInterface
     {
         // Use $this->filmApi to interact with the Film API and retrieve the trending films of the day
         // Implement the logic to handle the GetTrendingFilmsOfDayQuery
-
         // Example usage:
-        $trendingFilms = $this->filmApi->getTrendingFilmsOfDay();
+        $trendingFilms = $this->filmApi->getTrendingFilmsOfDay($query->page);
 
         // Return the trending films of the day
         return $trendingFilms;
