@@ -13,22 +13,6 @@ class Film extends Model
         'id',
         'title',
         'overview',
-        'poster_path',
-        'backdrop_path',
-        'budget',
-        'popularity',
-        'release_date',
-        'video',
-        'vote_average',
-        'vote_count',
-        'original_language',
-        'original_title',
-        'homepage',
-        'imdb_id',
-        'revenue',
-        'runtime',
-        'status',
-        'tagline',
     ];
 
     protected $casts = [

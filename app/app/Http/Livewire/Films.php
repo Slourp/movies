@@ -2,12 +2,11 @@
 
 namespace App\Http\Livewire;
 
-
 use App\Models\Film;
+use Carbon\Carbon;
 use Livewire\Component;
-use App\Models\Product;
 
-class Products extends Component
+class Films extends Component
 {
     public $films, $title, $overview, $product_id;
     public $isOpen = 0;
@@ -48,10 +47,11 @@ class Products extends Component
             'overview' => 'required',
         ]);
 
-        Product::updateOrCreate(['id' => $this->product_id], [
-            'title' => $this->title,
-            'overview' => $this->overview
-        ]);
+        if ($this->product_id) {
+            $this->updateFilm();
+        } else {
+            $this->createFilm();
+        }
 
         session()->flash(
             'message',
@@ -60,6 +60,28 @@ class Products extends Component
 
         $this->closeModal();
         $this->resetInputFields();
+    }
+
+    private function createFilm()
+    {
+        $film = new Film();
+        $film->id = mt_rand(100000, 999999); // Generate a unique integer ID within the range of 100000 to 999999
+        $film->title = $this->title;
+        $film->overview = $this->overview;
+        $film->created_at = Carbon::now();
+        $film->updated_at = Carbon::now();
+        $film->save();
+    }
+
+    private function updateFilm()
+    {
+        $film = Film::find($this->product_id);
+        if ($film) {
+            $film->title = $this->title;
+            $film->overview = $this->overview;
+            $film->updated_at = Carbon::now();
+            $film->save();
+        }
     }
 
     public function edit($id)

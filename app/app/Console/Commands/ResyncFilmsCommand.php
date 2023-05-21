@@ -32,7 +32,7 @@ class ResyncFilmsCommand extends Command
 
     /**
      * The console command description.
-     *
+     *$
      * @var string
      */
     protected $description = 'Command description';
@@ -71,7 +71,7 @@ class ResyncFilmsCommand extends Command
                         original_title: $filmDetails->original_title,
                         overview: $filmDetails->overview,
                         popularity: $filmDetails->popularity,
-                        poster_path: $filmDetails?->poster_path ?? "",
+                        poster_path: $filmDetails?->poster_path ? "https://image.tmdb.org/t/p/original$filmDetails?->poster_path" : "",
                         production_companies: $filmDetails->production_companies,
                         production_countries: $filmDetails->production_countries,
                         release_date: $filmDetails->release_date,
